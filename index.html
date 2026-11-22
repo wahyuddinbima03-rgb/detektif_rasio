@@ -1,0 +1,1668 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Detektif Rasio: Membandingkan Dunia di Sekitar Kita</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            detectiveBlue: '#0088e8',
+            detectiveBlueDark: '#0066b3',
+            detectiveOrange: '#ff6b00',
+            detectiveOrangeDark: '#d95800',
+            detectiveCream: '#f7f6f0',
+            detectiveInk: '#1e2631',
+          },
+          fontFamily: {
+            display: ['Fredoka', 'sans-serif'],
+            body: ['Nunito', 'sans-serif'],
+          },
+          boxShadow: {
+            card: '0 6px 0 #1e2631',
+            cardBlue: '0 6px 0 #0088e8',
+            cardOrange: '0 6px 0 #ff6b00',
+            btn: '0 4px 0 #1e2631',
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    body {
+      background-color: #f7f6f0;
+      color: #1e2631;
+      font-family: 'Nunito', sans-serif;
+      background-image: radial-gradient(#dcdad0 1.2px, transparent 1.2px);
+      background-size: 22px 22px;
+    }
+
+    h1, h2, h3, .font-display {
+      font-family: 'Fredoka', sans-serif;
+    }
+
+    /* Animasi roda gigi slide 1 */
+    @keyframes spinSlow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @keyframes spinReverseSlow {
+      from { transform: rotate(360deg); }
+      to { transform: rotate(0deg); }
+    }
+    .gear-cw {
+      transform-origin: center;
+      animation: spinSlow 18s linear infinite;
+    }
+    .gear-ccw {
+      transform-origin: center;
+      animation: spinReverseSlow 18s linear infinite;
+    }
+
+    /* Efek tombol tekan */
+    .btn-detective {
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+    }
+    .btn-detective:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 #1e2631;
+    }
+
+    /* Efek kartu terbalik slide 8 */
+    .upside-down-box {
+      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .is-upside-down {
+      transform: rotate(180deg);
+    }
+
+    /* Animasi muncul halus */
+    .fade-in-panel {
+      animation: fadeInPanel 0.35s ease-out;
+    }
+    @keyframes fadeInPanel {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #eceae0;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #0088e8;
+      border-radius: 9999px;
+      border: 2px solid #eceae0;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-detectiveOrange selection:text-white">
+
+  <!-- HEADER: KANTOR DETEKTIF RASIO -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b-4 border-detectiveInk shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+      <!-- Brand / Logo -->
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-2xl bg-detectiveBlue border-3 border-detectiveInk flex items-center justify-center shadow-btn relative overflow-hidden">
+          <div class="absolute inset-0 bg-detectiveOrange" style="clip-path: polygon(100% 0, 0 100%, 100% 100%);"></div>
+          <svg class="w-8 h-8 relative z-10 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <circle cx="11" cy="11" r="7" fill="#fff" stroke="#1e2631" />
+            <line x1="16.5" y1="16.5" x2="21" y2="21" stroke="#1e2631" stroke-linecap="round" stroke-width="3" />
+            <text x="11" y="14" text-anchor="middle" font-size="9" font-weight="900" fill="#ff6b00" stroke="none">:</text>
+          </svg>
+        </div>
+        <div>
+          <span class="inline-block text-xs font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-detectiveOrange text-white">
+            Matematika Kelas 6 SD
+          </span>
+          <h1 class="text-xl sm:text-2xl font-bold text-detectiveInk leading-tight">
+            Kantor Detektif Rasio
+          </h1>
+        </div>
+      </div>
+
+      <!-- Indikator Progres & Lencana Detektif -->
+      <div class="flex items-center gap-3 bg-detectiveCream px-3.5 py-2 rounded-2xl border-2 border-detectiveInk">
+        <div class="flex items-center gap-1.5">
+          <span class="text-xl" aria-hidden="true">🏅</span>
+          <div>
+            <div class="text-[11px] font-extrabold uppercase text-gray-500 leading-none">Poin Lencana</div>
+            <div class="text-base sm:text-lg font-black text-detectiveBlue leading-tight">
+              <span id="detective-points">0</span> <span class="text-xs font-bold text-detectiveInk">/ 100 XP</span>
+            </div>
+          </div>
+        </div>
+        <div class="h-8 w-[2px] bg-gray-300"></div>
+        <div>
+          <div class="text-[11px] font-extrabold uppercase text-gray-500 leading-none">Pangkat</div>
+          <div id="detective-rank" class="text-xs sm:text-sm font-black text-detectiveOrange">
+            Detektif Pemula
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigasi Tab 4 Modul -->
+    <nav class="bg-detectiveCream border-t-2 border-detectiveInk/15 px-3 py-2 overflow-x-auto">
+      <div class="max-w-6xl mx-auto flex items-center gap-2 min-w-max">
+        <button onclick="switchTab('tab1')" id="btn-tab1" class="tab-btn btn-detective flex items-center gap-2 px-4 py-2.5 rounded-xl font-display font-semibold text-sm sm:text-base border-2 border-detectiveInk bg-detectiveBlue text-white shadow-btn">
+          <span>🔍</span> 1. Pengantar & Konsep
+        </button>
+        <button onclick="switchTab('tab2')" id="btn-tab2" class="tab-btn btn-detective flex items-center gap-2 px-4 py-2.5 rounded-xl font-display font-semibold text-sm sm:text-base border-2 border-detectiveInk bg-white text-detectiveInk hover:bg-orange-50">
+          <span>🗂️</span> 2. Studi Kasus Detektif
+        </button>
+        <button onclick="switchTab('tab3')" id="btn-tab3" class="tab-btn btn-detective flex items-center gap-2 px-4 py-2.5 rounded-xl font-display font-semibold text-sm sm:text-base border-2 border-detectiveInk bg-white text-detectiveInk hover:bg-orange-50">
+          <span>📜</span> 3. Aturan Emas & Cheat Sheet
+        </button>
+        <button onclick="switchTab('tab4')" id="btn-tab4" class="tab-btn btn-detective flex items-center gap-2 px-4 py-2.5 rounded-xl font-display font-semibold text-sm sm:text-base border-2 border-detectiveInk bg-white text-detectiveInk hover:bg-orange-50">
+          <span>🏆</span> 4. Misi & Kuis Detektif
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- KONTEN UTAMA -->
+  <main class="flex-1 max-w-6xl w-full mx-auto px-4 py-6 sm:py-8">
+
+    <!-- ========================================================= -->
+    <!-- TAB 1: PENGANTAR & KONSEP DASAR (SLIDE 1 - 5)             -->
+    <!-- ========================================================= -->
+    <section id="tab1" class="tab-panel fade-in-panel space-y-8">
+      
+      <!-- SLIDE 1: HERO BANNER DETEKTIF RASIO -->
+      <div class="relative rounded-3xl border-4 border-detectiveInk overflow-hidden shadow-card bg-detectiveBlue text-white">
+        <!-- Diagonal Orange Background seperti Slide 1 -->
+        <div class="absolute inset-0 bg-detectiveOrange" style="clip-path: polygon(100% 0, 0 100%, 100% 100%);"></div>
+        
+        <div class="relative z-10 p-6 sm:p-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+          <div class="lg:col-span-7 space-y-4">
+            <span class="inline-block bg-white text-detectiveInk font-extrabold text-xs sm:text-sm px-3.5 py-1.5 rounded-full border-2 border-detectiveInk shadow-sm">
+              🕵️‍♂️ BERKAS RAHASIA #01 • MATEMATIKA KELAS 6
+            </span>
+            <h2 class="text-3xl sm:text-5xl font-bold leading-tight drop-shadow-[0_3px_0_rgba(30,38,49,0.5)]">
+              Rahasia Rasio: Membandingkan Dunia di Sekitar Kita
+            </h2>
+            <p class="text-base sm:text-lg font-bold bg-detectiveInk/80 backdrop-blur-sm p-4 rounded-2xl border-2 border-white/30">
+              Memahami <span class="text-sky-300 underline decoration-2">Rasio Bagian vs Bagian</span> &amp; <span class="text-orange-300 underline decoration-2">Bagian vs Keseluruhan</span> dengan cara yang seru!
+            </p>
+            <div class="pt-1 flex flex-wrap gap-3">
+              <a href="#apa-itu-rasio" class="btn-detective inline-flex items-center gap-2 bg-white text-detectiveInk font-display font-bold px-5 py-3 rounded-2xl border-3 border-detectiveInk shadow-btn hover:bg-yellow-50">
+                Mulai Penyelidikan 👇
+              </a>
+              <button onclick="switchTab('tab4')" class="btn-detective inline-flex items-center gap-2 bg-detectiveInk text-white font-display font-bold px-5 py-3 rounded-2xl border-2 border-white/40 hover:bg-gray-800">
+                Langsung ke Misi 🎯
+              </button>
+            </div>
+          </div>
+
+          <!-- Ilustrasi Roda Gigi Biru & Oranye Slide 1 -->
+          <div class="lg:col-span-5 flex justify-center">
+            <div class="bg-white/95 p-5 rounded-3xl border-4 border-detectiveInk shadow-card flex flex-col items-center">
+              <svg class="w-48 h-40 sm:w-56 sm:h-44" viewBox="0 0 240 180">
+                <!-- Roda Gigi Oranye -->
+                <g transform="translate(82, 95)">
+                  <g class="gear-cw">
+                    <circle cx="0" cy="0" r="42" fill="#ff6b00" stroke="#1e2631" stroke-width="4" />
+                    <g fill="#ff6b00" stroke="#1e2631" stroke-width="3">
+                      <rect x="-8" y="-56" width="16" height="16" rx="3" />
+                      <rect x="-8" y="40" width="16" height="16" rx="3" />
+                      <rect x="-56" y="-8" width="16" height="16" rx="3" />
+                      <rect x="40" y="-8" width="16" height="16" rx="3" />
+                      <rect x="-8" y="-56" width="16" height="16" rx="3" transform="rotate(45)" />
+                      <rect x="-8" y="40" width="16" height="16" rx="3" transform="rotate(45)" />
+                      <rect x="-56" y="-8" width="16" height="16" rx="3" transform="rotate(45)" />
+                      <rect x="40" y="-8" width="16" height="16" rx="3" transform="rotate(45)" />
+                    </g>
+                    <circle cx="0" cy="0" r="18" fill="#f7f6f0" stroke="#1e2631" stroke-width="4" />
+                  </g>
+                </g>
+                <!-- Roda Gigi Biru -->
+                <g transform="translate(158, 78)">
+                  <g class="gear-ccw">
+                    <circle cx="0" cy="0" r="38" fill="#0088e8" stroke="#1e2631" stroke-width="4" />
+                    <g fill="#0088e8" stroke="#1e2631" stroke-width="3">
+                      <rect x="-7" y="-50" width="14" height="14" rx="3" />
+                      <rect x="-7" y="36" width="14" height="14" rx="3" />
+                      <rect x="-50" y="-7" width="14" height="14" rx="3" />
+                      <rect x="36" y="-7" width="14" height="14" rx="3" />
+                      <rect x="-7" y="-50" width="14" height="14" rx="3" transform="rotate(45)" />
+                      <rect x="-7" y="36" width="14" height="14" rx="3" transform="rotate(45)" />
+                      <rect x="-50" y="-7" width="14" height="14" rx="3" transform="rotate(45)" />
+                      <rect x="36" y="-7" width="14" height="14" rx="3" transform="rotate(45)" />
+                    </g>
+                    <circle cx="0" cy="0" r="16" fill="#f7f6f0" stroke="#1e2631" stroke-width="4" />
+                  </g>
+                </g>
+              </svg>
+              <span class="text-xs font-extrabold text-detectiveInk bg-detectiveCream px-3 py-1 rounded-full border-2 border-detectiveInk">
+                ⚙️ Dua Bagian Saling Terhubung!
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 2: APA ITU RASIO? (KARTU INTERAKTIF JERUK & BLUBERI) -->
+      <div id="apa-itu-rasio" class="bg-white rounded-3xl border-4 border-detectiveInk p-6 sm:p-8 shadow-card space-y-6">
+        <div class="flex flex-wrap items-center justify-between gap-2 border-b-3 border-gray-200 pb-4">
+          <h3 class="text-2xl sm:text-3xl font-bold text-detectiveInk flex items-center gap-2">
+            <span class="bg-detectiveBlue text-white w-9 h-9 rounded-xl inline-flex items-center justify-center text-lg border-2 border-detectiveInk">?</span>
+            Apa itu Rasio?
+          </h3>
+          <span class="text-xs font-extrabold bg-blue-100 text-detectiveBlue px-3 py-1 rounded-full border border-detectiveBlue">
+            Eksplorasi Interaktif
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+          <!-- Definisi Kiri -->
+          <div class="lg:col-span-4 bg-gray-100 rounded-2xl border-3 border-detectiveInk p-6 flex flex-col justify-center">
+            <p class="text-xl sm:text-2xl font-extrabold leading-snug text-detectiveInk">
+              <span class="text-detectiveBlue">Rasio</span> adalah cara paling keren dan pasti untuk <span class="text-detectiveBlue underline decoration-4">membandingkan</span> dua hal.
+            </p>
+            <p class="mt-4 text-sm font-bold text-gray-600">
+              💡 Klik tombol tambah/kurang di kotak buah untuk melihat rasio berubah secara langsung!
+            </p>
+          </div>
+
+          <!-- Kotak Buah Interaktif Tengah -->
+          <div class="lg:col-span-4 bg-detectiveCream rounded-2xl border-3 border-detectiveInk p-5 flex flex-col justify-between">
+            <div class="text-center font-extrabold text-sm text-gray-600 mb-2">
+              Nampan Buah Detektif
+            </div>
+            
+            <!-- Area Visual Buah -->
+            <div id="fruit-basket" class="min-h-[160px] bg-white rounded-2xl border-2 border-gray-300 p-4 flex flex-wrap items-center justify-center gap-3 content-center">
+              <!-- Diisi oleh JS -->
+            </div>
+
+            <!-- Kontrol Tambah/Kurang Buah -->
+            <div class="mt-4 grid grid-cols-2 gap-3">
+              <div class="bg-orange-100 p-2.5 rounded-xl border-2 border-detectiveOrange text-center">
+                <div class="text-xs font-extrabold text-detectiveOrangeDark mb-1">🍊 Jeruk: <span id="orange-count">3</span></div>
+                <div class="flex justify-center gap-2">
+                  <button onclick="updateFruit('orange', -1)" class="w-8 h-8 rounded-lg bg-white border-2 border-detectiveInk font-black hover:bg-orange-200">-</button>
+                  <button onclick="updateFruit('orange', 1)" class="w-8 h-8 rounded-lg bg-detectiveOrange text-white border-2 border-detectiveInk font-black hover:bg-detectiveOrangeDark">+</button>
+                </div>
+              </div>
+              <div class="bg-blue-100 p-2.5 rounded-xl border-2 border-detectiveBlue text-center">
+                <div class="text-xs font-extrabold text-detectiveBlueDark mb-1">🫐 Bluberi: <span id="blueberry-count">2</span></div>
+                <div class="flex justify-center gap-2">
+                  <button onclick="updateFruit('blueberry', -1)" class="w-8 h-8 rounded-lg bg-white border-2 border-detectiveInk font-black hover:bg-blue-200">-</button>
+                  <button onclick="updateFruit('blueberry', 1)" class="w-8 h-8 rounded-lg bg-detectiveBlue text-white border-2 border-detectiveInk font-black hover:bg-detectiveBlueDark">+</button>
+                </div>
+              </div>
+            </div>
+            <button onclick="resetFruit()" class="mt-2 text-xs font-extrabold text-gray-500 hover:text-detectiveInk underline text-center">
+              Kembalikan ke contoh awal (3 Jeruk : 2 Bluberi)
+            </button>
+          </div>
+
+          <!-- Balon Kata Detektif Kanan -->
+          <div class="lg:col-span-4 bg-detectiveOrange text-white rounded-2xl border-4 border-detectiveBlue p-6 flex flex-col justify-center shadow-md relative">
+            <p class="text-base sm:text-lg font-bold leading-relaxed">
+              Alih-alih hanya berkata <em>“Jeruk lebih banyak dari bluberi”</em>, seorang detektif matematika menggunakan <span class="underline decoration-2 font-black text-yellow-200">angka pasti:</span>
+            </p>
+            <div class="mt-5 bg-detectiveInk/25 rounded-2xl p-4 text-center border-2 border-white/40">
+              <p id="fruit-sentence" class="text-base sm:text-lg font-extrabold">
+                Untuk setiap 3 jeruk, ada 2 bluberi!
+              </p>
+              <div id="fruit-ratio-display" class="text-4xl sm:text-5xl font-display font-bold mt-2 text-yellow-200 drop-shadow">
+                3 : 2
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 3: DUA TOKOH UTAMA KITA HARI INI -->
+      <div class="bg-white rounded-3xl border-4 border-detectiveInk p-6 sm:p-8 shadow-card space-y-6">
+        <div class="text-center max-w-2xl mx-auto space-y-2">
+          <span class="inline-block bg-detectiveOrange text-white text-xs font-extrabold px-3 py-1 rounded-full">KENALI PERBEDAANNYA</span>
+          <h3 class="text-2xl sm:text-3xl font-bold text-detectiveInk">Dua Tokoh Utama Kita Hari Ini</h3>
+          <p class="text-sm sm:text-base font-bold text-gray-600">
+            Perhatikan sebuah kotak berisi <span class="text-detectiveOrange font-black">6 balok oranye</span> dan <span class="text-detectiveBlue font-black">6 balok biru</span> (Total 12 balok). Ada dua cara membandingkannya:
+          </p>
+        </div>
+
+        <!-- Kotak Gabungan Atas -->
+        <div class="max-w-md mx-auto bg-detectiveCream border-3 border-detectiveInk rounded-2xl p-4 text-center">
+          <div class="text-xs font-extrabold uppercase text-gray-500 mb-2">Sekotak Penuh Balok (6 Oranye + 6 Biru = 12 Balok)</div>
+          <div class="flex flex-wrap justify-center gap-1.5">
+            <span class="w-6 h-6 rounded bg-detectiveOrange border-2 border-detectiveInk inline-block"></span>
+            <span class="w-6 h-6 rounded bg-detectiveBlue border-2 border-detectiveInk inline-block"></span>
+            <span class="w-6 h-6 rounded bg-detectiveOrange border-2 border-detectiveInk inline-block"></span>
+            <span class="w-6 h-6 rounded bg-detectiveBlue border-2 border-detectiveInk inline-block"></span>
+            <span class="w-6 h-6 rounded bg-detectiveOrange border-2 border-detectiveInk inline-block"></span>
+            <span class="w-6 h-6 rounded bg-detectiveBlue border-2 border-detectiveInk inline-block"></span>
+            <span class="w-6 h-6 rounded bg-detectiveOrange border-2 border-detectiveInk inline-block"></span>
+            <span class="w-6 h-6 rounded bg-detectiveBlue border-2 border-detectiveInk inline-block"></span>
+            <span class="w-6 h-6 rounded bg-detectiveOrange border-2 border-detectiveInk inline-block"></span>
+            <span class="w-6 h-6 rounded bg-detectiveBlue border-2 border-detectiveInk inline-block"></span>
+            <span class="w-6 h-6 rounded bg-detectiveOrange border-2 border-detectiveInk inline-block"></span>
+            <span class="w-6 h-6 rounded bg-detectiveBlue border-2 border-detectiveInk inline-block"></span>
+          </div>
+        </div>
+
+        <!-- Dua Cabang Tokoh Utama -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Tokoh 1: Bagian vs Bagian -->
+          <div class="bg-sky-50 rounded-2xl border-3 border-detectiveBlue p-6 flex flex-col justify-between space-y-4">
+            <div class="flex items-center justify-center gap-3 bg-white p-4 rounded-xl border-2 border-detectiveBlue">
+              <div class="grid grid-cols-3 gap-1 p-2 bg-orange-50 rounded-lg border border-detectiveOrange">
+                <span class="w-5 h-5 rounded bg-detectiveOrange border border-detectiveInk"></span>
+                <span class="w-5 h-5 rounded bg-detectiveOrange border border-detectiveInk"></span>
+                <span class="w-5 h-5 rounded bg-detectiveOrange border border-detectiveInk"></span>
+                <span class="w-5 h-5 rounded bg-detectiveOrange border border-detectiveInk"></span>
+                <span class="w-5 h-5 rounded bg-detectiveOrange border border-detectiveInk"></span>
+                <span class="w-5 h-5 rounded bg-detectiveOrange border border-detectiveInk"></span>
+              </div>
+              <span class="text-2xl font-black text-detectiveInk">:</span>
+              <div class="grid grid-cols-3 gap-1 p-2 bg-blue-50 rounded-lg border border-detectiveBlue">
+                <span class="w-5 h-5 rounded bg-detectiveBlue border border-detectiveInk"></span>
+                <span class="w-5 h-5 rounded bg-detectiveBlue border border-detectiveInk"></span>
+                <span class="w-5 h-5 rounded bg-detectiveBlue border border-detectiveInk"></span>
+                <span class="w-5 h-5 rounded bg-detectiveBlue border border-detectiveInk"></span>
+                <span class="w-5 h-5 rounded bg-detectiveBlue border border-detectiveInk"></span>
+                <span class="w-5 h-5 rounded bg-detectiveBlue border border-detectiveInk"></span>
+              </div>
+            </div>
+            <div class="text-center">
+              <h4 class="text-xl font-bold text-detectiveBlueDark">1. Bagian vs Bagian</h4>
+              <p class="text-sm sm:text-base font-bold text-detectiveInk mt-1">
+                (Membandingkan <span class="underline">isi dengan isi</span>). Contoh: 6 Balok Oranye : 6 Balok Biru
+              </p>
+            </div>
+          </div>
+
+          <!-- Tokoh 2: Bagian vs Keseluruhan -->
+          <div class="bg-orange-50 rounded-2xl border-3 border-detectiveOrange p-6 flex flex-col justify-between space-y-4">
+            <div class="flex items-center justify-center gap-3 bg-white p-4 rounded-xl border-2 border-detectiveOrange">
+              <div class="grid grid-cols-3 gap-1 p-2 bg-orange-50 rounded-lg border border-detectiveOrange">
+                <span class="w-5 h-5 rounded bg-detectiveOrange border border-detectiveInk"></span>
+                <span class="w-5 h-5 rounded bg-detectiveOrange border border-detectiveInk"></span>
+                <span class="w-5 h-5 rounded bg-detectiveOrange border border-detectiveInk"></span>
+                <span class="w-5 h-5 rounded bg-detectiveOrange border border-detectiveInk"></span>
+                <span class="w-5 h-5 rounded bg-detectiveOrange border border-detectiveInk"></span>
+                <span class="w-5 h-5 rounded bg-detectiveOrange border border-detectiveInk"></span>
+              </div>
+              <span class="text-2xl font-black text-detectiveInk">:</span>
+              <div class="grid grid-cols-4 gap-1 p-2 bg-gray-100 rounded-lg border-2 border-detectiveInk">
+                <span class="w-4 h-4 rounded bg-detectiveOrange"></span>
+                <span class="w-4 h-4 rounded bg-detectiveBlue"></span>
+                <span class="w-4 h-4 rounded bg-detectiveOrange"></span>
+                <span class="w-4 h-4 rounded bg-detectiveBlue"></span>
+                <span class="w-4 h-4 rounded bg-detectiveOrange"></span>
+                <span class="w-4 h-4 rounded bg-detectiveBlue"></span>
+                <span class="w-4 h-4 rounded bg-detectiveOrange"></span>
+                <span class="w-4 h-4 rounded bg-detectiveBlue"></span>
+                <span class="w-4 h-4 rounded bg-detectiveOrange"></span>
+                <span class="w-4 h-4 rounded bg-detectiveBlue"></span>
+                <span class="w-4 h-4 rounded bg-detectiveOrange"></span>
+                <span class="w-4 h-4 rounded bg-detectiveBlue"></span>
+              </div>
+            </div>
+            <div class="text-center">
+              <h4 class="text-xl font-bold text-detectiveOrangeDark">2. Bagian vs Keseluruhan</h4>
+              <p class="text-sm sm:text-base font-bold text-detectiveInk mt-1">
+                (Membandingkan <span class="underline">isi dengan total sekotak penuh</span>). Contoh: 6 Oranye : 12 Total Balok
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 4 & 5: SIMULASI INTERAKTIF KELOMPOK A & KELOMPOK B -->
+      <div class="bg-white rounded-3xl border-4 border-detectiveInk p-6 sm:p-8 shadow-card space-y-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b-3 border-gray-200 pb-4">
+          <div>
+            <span class="text-xs font-extrabold uppercase tracking-wider text-detectiveOrange">Simulasi Konsep 1 &amp; Konsep 2</span>
+            <h3 id="concept-title" class="text-2xl sm:text-3xl font-bold text-detectiveInk">
+              Konsep 1: Bagian vs Bagian (Part-to-Part)
+            </h3>
+            <p id="concept-subtitle" class="text-sm sm:text-base font-bold text-gray-600">
+              Membandingkan satu kelompok langsung dengan kelompok lainnya.
+            </p>
+          </div>
+
+          <!-- Tombol Toggle Mode -->
+          <div class="inline-flex p-1.5 bg-detectiveCream rounded-2xl border-3 border-detectiveInk self-start">
+            <button onclick="setConceptMode('part-to-part')" id="btn-mode-p2p" class="px-4 py-2 rounded-xl font-display font-bold text-sm bg-detectiveBlue text-white shadow-sm transition">
+              Bagian vs Bagian
+            </button>
+            <button onclick="setConceptMode('part-to-whole')" id="btn-mode-p2w" class="px-4 py-2 rounded-xl font-display font-bold text-sm text-detectiveInk hover:bg-white transition">
+              Bagian vs Keseluruhan
+            </button>
+          </div>
+        </div>
+
+        <!-- Visual Lingkaran Dinamis Slide 4 & 5 -->
+        <div class="bg-detectiveCream rounded-2xl border-3 border-detectiveInk p-6">
+          <div class="flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-8">
+            
+            <!-- Kelompok A: 4 Laki-laki Bertopi Biru -->
+            <div id="group-a-ring" class="p-5 rounded-full border-4 border-detectiveBlue bg-white shadow-sm transition-all duration-300">
+              <div class="grid grid-cols-2 gap-3">
+                <!-- 4 SVG Laki-laki topi biru -->
+                <div class="flex flex-col items-center">
+                  <svg class="w-14 h-14" viewBox="0 0 64 64">
+                    <circle cx="32" cy="36" r="14" fill="#f7c8a0" stroke="#1e2631" stroke-width="2.5"/>
+                    <path d="M18 30 C18 18, 46 18, 46 30 Z" fill="#0088e8" stroke="#1e2631" stroke-width="2.5"/>
+                    <rect x="30" y="26" width="22" height="4" rx="2" fill="#0088e8" stroke="#1e2631" stroke-width="2"/>
+                    <circle cx="27" cy="36" r="2" fill="#1e2631"/><circle cx="37" cy="36" r="2" fill="#1e2631"/>
+                    <path d="M28 42 Q32 45 36 42" fill="none" stroke="#1e2631" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M16 60 C16 50, 48 50, 48 60 Z" fill="#0088e8" stroke="#1e2631" stroke-width="2.5"/>
+                  </svg>
+                </div>
+                <div class="flex flex-col items-center">
+                  <svg class="w-14 h-14" viewBox="0 0 64 64">
+                    <circle cx="32" cy="36" r="14" fill="#f7c8a0" stroke="#1e2631" stroke-width="2.5"/>
+                    <path d="M18 30 C18 18, 46 18, 46 30 Z" fill="#0088e8" stroke="#1e2631" stroke-width="2.5"/>
+                    <rect x="30" y="26" width="22" height="4" rx="2" fill="#0088e8" stroke="#1e2631" stroke-width="2"/>
+                    <circle cx="27" cy="36" r="2" fill="#1e2631"/><circle cx="37" cy="36" r="2" fill="#1e2631"/>
+                    <path d="M28 42 Q32 45 36 42" fill="none" stroke="#1e2631" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M16 60 C16 50, 48 50, 48 60 Z" fill="#0088e8" stroke="#1e2631" stroke-width="2.5"/>
+                  </svg>
+                </div>
+                <div class="flex flex-col items-center">
+                  <svg class="w-14 h-14" viewBox="0 0 64 64">
+                    <circle cx="32" cy="36" r="14" fill="#f7c8a0" stroke="#1e2631" stroke-width="2.5"/>
+                    <path d="M18 30 C18 18, 46 18, 46 30 Z" fill="#0088e8" stroke="#1e2631" stroke-width="2.5"/>
+                    <rect x="30" y="26" width="22" height="4" rx="2" fill="#0088e8" stroke="#1e2631" stroke-width="2"/>
+                    <circle cx="27" cy="36" r="2" fill="#1e2631"/><circle cx="37" cy="36" r="2" fill="#1e2631"/>
+                    <path d="M28 42 Q32 45 36 42" fill="none" stroke="#1e2631" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M16 60 C16 50, 48 50, 48 60 Z" fill="#0088e8" stroke="#1e2631" stroke-width="2.5"/>
+                  </svg>
+                </div>
+                <div class="flex flex-col items-center">
+                  <svg class="w-14 h-14" viewBox="0 0 64 64">
+                    <circle cx="32" cy="36" r="14" fill="#f7c8a0" stroke="#1e2631" stroke-width="2.5"/>
+                    <path d="M18 30 C18 18, 46 18, 46 30 Z" fill="#0088e8" stroke="#1e2631" stroke-width="2.5"/>
+                    <rect x="30" y="26" width="22" height="4" rx="2" fill="#0088e8" stroke="#1e2631" stroke-width="2"/>
+                    <circle cx="27" cy="36" r="2" fill="#1e2631"/><circle cx="37" cy="36" r="2" fill="#1e2631"/>
+                    <path d="M28 42 Q32 45 36 42" fill="none" stroke="#1e2631" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M16 60 C16 50, 48 50, 48 60 Z" fill="#0088e8" stroke="#1e2631" stroke-width="2.5"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tanda Titik Dua (:) -->
+            <div class="flex flex-col items-center justify-center">
+              <div class="w-5 h-5 rounded-full bg-detectiveInk mb-3"></div>
+              <div class="w-5 h-5 rounded-full bg-detectiveInk"></div>
+            </div>
+
+            <!-- Kelompok B / Gabungan Keseluruhan -->
+            <div id="group-b-ring" class="p-5 rounded-full border-4 border-detectiveOrange bg-white shadow-sm transition-all duration-300">
+              <div id="group-b-content" class="grid grid-cols-3 gap-3">
+                <!-- 6 SVG Perempuan baju oranye -->
+                <svg class="w-14 h-14" viewBox="0 0 64 64">
+                  <path d="M16 38 C16 16, 48 16, 48 38 L48 48 L16 48 Z" fill="#4a3525" stroke="#1e2631" stroke-width="2"/>
+                  <circle cx="32" cy="35" r="13" fill="#f7c8a0" stroke="#1e2631" stroke-width="2.5"/>
+                  <circle cx="27" cy="35" r="2" fill="#1e2631"/><circle cx="37" cy="35" r="2" fill="#1e2631"/>
+                  <path d="M28 41 Q32 44 36 41" fill="none" stroke="#1e2631" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M16 60 C16 50, 48 50, 48 60 Z" fill="#ff6b00" stroke="#1e2631" stroke-width="2.5"/>
+                </svg>
+                <svg class="w-14 h-14" viewBox="0 0 64 64">
+                  <path d="M16 38 C16 16, 48 16, 48 38 L48 48 L16 48 Z" fill="#4a3525" stroke="#1e2631" stroke-width="2"/>
+                  <circle cx="32" cy="35" r="13" fill="#f7c8a0" stroke="#1e2631" stroke-width="2.5"/>
+                  <circle cx="27" cy="35" r="2" fill="#1e2631"/><circle cx="37" cy="35" r="2" fill="#1e2631"/>
+                  <path d="M28 41 Q32 44 36 41" fill="none" stroke="#1e2631" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M16 60 C16 50, 48 50, 48 60 Z" fill="#ff6b00" stroke="#1e2631" stroke-width="2.5"/>
+                </svg>
+                <svg class="w-14 h-14" viewBox="0 0 64 64">
+                  <path d="M16 38 C16 16, 48 16, 48 38 L48 48 L16 48 Z" fill="#4a3525" stroke="#1e2631" stroke-width="2"/>
+                  <circle cx="32" cy="35" r="13" fill="#f7c8a0" stroke="#1e2631" stroke-width="2.5"/>
+                  <circle cx="27" cy="35" r="2" fill="#1e2631"/><circle cx="37" cy="35" r="2" fill="#1e2631"/>
+                  <path d="M28 41 Q32 44 36 41" fill="none" stroke="#1e2631" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M16 60 C16 50, 48 50, 48 60 Z" fill="#ff6b00" stroke="#1e2631" stroke-width="2.5"/>
+                </svg>
+                <svg class="w-14 h-14" viewBox="0 0 64 64">
+                  <path d="M16 38 C16 16, 48 16, 48 38 L48 48 L16 48 Z" fill="#4a3525" stroke="#1e2631" stroke-width="2"/>
+                  <circle cx="32" cy="35" r="13" fill="#f7c8a0" stroke="#1e2631" stroke-width="2.5"/>
+                  <circle cx="27" cy="35" r="2" fill="#1e2631"/><circle cx="37" cy="35" r="2" fill="#1e2631"/>
+                  <path d="M28 41 Q32 44 36 41" fill="none" stroke="#1e2631" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M16 60 C16 50, 48 50, 48 60 Z" fill="#ff6b00" stroke="#1e2631" stroke-width="2.5"/>
+                </svg>
+                <svg class="w-14 h-14" viewBox="0 0 64 64">
+                  <path d="M16 38 C16 16, 48 16, 48 38 L48 48 L16 48 Z" fill="#4a3525" stroke="#1e2631" stroke-width="2"/>
+                  <circle cx="32" cy="35" r="13" fill="#f7c8a0" stroke="#1e2631" stroke-width="2.5"/>
+                  <circle cx="27" cy="35" r="2" fill="#1e2631"/><circle cx="37" cy="35" r="2" fill="#1e2631"/>
+                  <path d="M28 41 Q32 44 36 41" fill="none" stroke="#1e2631" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M16 60 C16 50, 48 50, 48 60 Z" fill="#ff6b00" stroke="#1e2631" stroke-width="2.5"/>
+                </svg>
+                <svg class="w-14 h-14" viewBox="0 0 64 64">
+                  <path d="M16 38 C16 16, 48 16, 48 38 L48 48 L16 48 Z" fill="#4a3525" stroke="#1e2631" stroke-width="2"/>
+                  <circle cx="32" cy="35" r="13" fill="#f7c8a0" stroke="#1e2631" stroke-width="2.5"/>
+                  <circle cx="27" cy="35" r="2" fill="#1e2631"/><circle cx="37" cy="35" r="2" fill="#1e2631"/>
+                  <path d="M28 41 Q32 44 36 41" fill="none" stroke="#1e2631" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M16 60 C16 50, 48 50, 48 60 Z" fill="#ff6b00" stroke="#1e2631" stroke-width="2.5"/>
+                </svg>
+              </div>
+              <!-- Badge indikator gabungan saat mode Part-to-Whole -->
+              <div id="whole-badge" class="hidden mt-3 text-center">
+                <span class="inline-block bg-detectiveOrange text-white text-xs font-extrabold px-3 py-1 rounded-full">
+                  + 4 Laki-laki ikut digabung = 10 Total Siswa!
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bar Perbandingan Bawah Slide 4 & 5 -->
+          <div class="mt-6 max-w-3xl mx-auto space-y-3">
+            <div class="grid grid-cols-11 items-center rounded-2xl border-3 border-detectiveInk overflow-hidden font-display font-bold text-white text-center text-base sm:text-lg">
+              <div class="col-span-5 bg-detectiveBlue py-3 px-2">Kelompok A (4)</div>
+              <div class="col-span-1 bg-white text-detectiveInk py-3 font-black">:</div>
+              <div id="bar-right-label" class="col-span-5 bg-detectiveOrange py-3 px-2">Kelompok B (6)</div>
+            </div>
+
+            <div id="concept-formula-box" class="bg-white rounded-2xl border-3 border-detectiveInk p-4 text-center text-lg sm:text-xl font-extrabold text-detectiveInk">
+              Laki-laki : Perempuan = <span class="text-detectiveBlue">4 : 6</span> (Atau jika disederhanakan: <span class="text-detectiveOrange">2 : 3</span>)
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tombol Lanjut ke Tab 2 -->
+      <div class="flex justify-end">
+        <button onclick="switchTab('tab2')" class="btn-detective bg-detectiveOrange text-white font-display font-bold text-lg px-6 py-3.5 rounded-2xl border-3 border-detectiveInk shadow-btn hover:bg-detectiveOrangeDark">
+          Lanjut ke Studi Kasus Detektif ➡️
+        </button>
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- TAB 2: STUDI KASUS DETEKTIF (SLIDE 6, 7, 9)               -->
+    <!-- ========================================================= -->
+    <section id="tab2" class="tab-panel hidden fade-in-panel space-y-8">
+
+      <!-- SLIDE 6: KASUS KELAS 6 SD LIMPUNG -->
+      <div class="rounded-3xl border-4 border-detectiveInk overflow-hidden shadow-card bg-white">
+        <!-- Header Kasus -->
+        <div class="bg-detectiveInk text-white p-5 text-center">
+          <span class="inline-block bg-detectiveOrange text-white text-xs font-extrabold px-3 py-0.5 rounded-full mb-1">KASUS #1 • DATA SEKOLAH</span>
+          <h3 class="text-xl sm:text-2xl font-bold">
+            Kasus Kelas 6 SD Limpung: Ada <span class="text-sky-300">12 Laki-laki</span> &amp; <span class="text-orange-300">18 Perempuan</span>. (Total = 30 Siswa).
+          </h3>
+        </div>
+
+        <!-- Dua Kolom Biru & Oranye seperti Slide 6 -->
+        <div class="grid grid-cols-1 md:grid-cols-2">
+          <!-- Kolom Biru: Bagian vs Bagian -->
+          <div class="bg-detectiveBlue text-white p-6 sm:p-8 flex flex-col justify-between space-y-5 border-b-4 md:border-b-0 md:border-r-4 border-detectiveInk">
+            <div class="space-y-2 text-center">
+              <h4 class="text-2xl sm:text-3xl font-bold">Bagian vs Bagian</h4>
+              <p class="text-base sm:text-lg font-bold text-sky-100">
+                Pertanyaan: Rasio Laki-laki terhadap Perempuan?
+              </p>
+              <div class="text-6xl sm:text-7xl font-display font-bold py-3 drop-shadow">
+                12 : 18
+              </div>
+              <span class="inline-block bg-white/20 px-3 py-1 rounded-full text-xs font-extrabold">
+                (Disederhanakan ÷ 6 menjadi 2 : 3)
+              </span>
+            </div>
+
+            <div class="bg-detectiveBlueDark/70 border-3 border-white rounded-2xl p-4 flex items-center gap-3">
+              <span class="text-3xl">🔍</span>
+              <p class="text-sm sm:text-base font-bold">
+                <span class="underline">Catatan Detektif:</span> Angka total (30) <span class="bg-white text-detectiveBlue px-1.5 py-0.5 rounded font-black">TIDAK</span> dipakai!
+              </p>
+            </div>
+          </div>
+
+          <!-- Kolom Oranye: Bagian vs Keseluruhan -->
+          <div class="bg-detectiveOrange text-white p-6 sm:p-8 flex flex-col justify-between space-y-5">
+            <div class="space-y-2 text-center">
+              <h4 class="text-2xl sm:text-3xl font-bold">Bagian vs Keseluruhan</h4>
+              <p class="text-base sm:text-lg font-bold text-orange-100">
+                Pertanyaan: Rasio Perempuan terhadap Total Siswa?
+              </p>
+              <div class="text-6xl sm:text-7xl font-display font-bold py-3 drop-shadow">
+                18 : 30
+              </div>
+              <span class="inline-block bg-white/20 px-3 py-1 rounded-full text-xs font-extrabold">
+                (Disederhanakan ÷ 6 menjadi 3 : 5)
+              </span>
+            </div>
+
+            <div class="bg-detectiveOrangeDark/70 border-3 border-white rounded-2xl p-4 flex items-center gap-3">
+              <span class="text-3xl">🔍</span>
+              <p class="text-sm sm:text-base font-bold">
+                <span class="underline">Catatan Detektif:</span> Angka <span class="bg-white text-detectiveOrange px-1.5 py-0.5 rounded font-black">TOTAL</span> menjadi kunci!
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 7: STUDI KASUS RESEP MINUMAN RAHASIA RINA (SIMULATOR TEKO) -->
+      <div class="bg-white rounded-3xl border-4 border-detectiveInk p-6 sm:p-8 shadow-card space-y-6">
+        <div class="space-y-2">
+          <span class="inline-block bg-detectiveBlue text-white text-xs font-extrabold px-3 py-1 rounded-full">KASUS #2 • SIMULATOR TAKARAN</span>
+          <h3 class="text-2xl sm:text-3xl font-bold text-detectiveInk">Studi Kasus: Resep Minuman Rahasia Rina</h3>
+          <div class="bg-gray-100 border-2 border-gray-300 rounded-2xl p-3.5 text-base sm:text-lg font-bold text-detectiveInk">
+            🍹 Rina membuat minuman segar dengan takaran <span class="text-detectiveBlue font-black">2 gelas air</span> dan <span class="text-detectiveOrange font-black">1 gelas sari jeruk</span>. Coba racik di bawah ini!
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center bg-detectiveCream p-5 sm:p-6 rounded-2xl border-3 border-detectiveInk">
+          <!-- Kontrol Kubus Takaran Kiri -->
+          <div class="lg:col-span-5 space-y-4">
+            <div class="bg-white p-4 rounded-2xl border-2 border-detectiveBlue flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-11 h-11 rounded-xl bg-detectiveBlue text-white font-display font-bold flex items-center justify-center border-2 border-detectiveInk text-xs">
+                  Air
+                </div>
+                <div>
+                  <div class="font-extrabold text-detectiveInk">Gelas Air</div>
+                  <div class="text-xs font-bold text-gray-500">Takaran asli: 2 gelas</div>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <button onclick="updatePitcher('water', -1)" class="w-9 h-9 rounded-xl bg-gray-100 border-2 border-detectiveInk font-black hover:bg-blue-100">-</button>
+                <span id="water-cups" class="w-7 text-center font-display font-bold text-xl text-detectiveBlue">2</span>
+                <button onclick="updatePitcher('water', 1)" class="w-9 h-9 rounded-xl bg-detectiveBlue text-white border-2 border-detectiveInk font-black hover:bg-detectiveBlueDark">+</button>
+              </div>
+            </div>
+
+            <div class="bg-white p-4 rounded-2xl border-2 border-detectiveOrange flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-11 h-11 rounded-xl bg-detectiveOrange text-white font-display font-bold flex items-center justify-center border-2 border-detectiveInk text-[10px] text-center leading-tight">
+                  Sari<br/>Jeruk
+                </div>
+                <div>
+                  <div class="font-extrabold text-detectiveInk">Gelas Sari Jeruk</div>
+                  <div class="text-xs font-bold text-gray-500">Takaran asli: 1 gelas</div>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <button onclick="updatePitcher('juice', -1)" class="w-9 h-9 rounded-xl bg-gray-100 border-2 border-detectiveInk font-black hover:bg-orange-100">-</button>
+                <span id="juice-cups" class="w-7 text-center font-display font-bold text-xl text-detectiveOrange">1</span>
+                <button onclick="updatePitcher('juice', 1)" class="w-9 h-9 rounded-xl bg-detectiveOrange text-white border-2 border-detectiveInk font-black hover:bg-detectiveOrangeDark">+</button>
+              </div>
+            </div>
+
+            <button onclick="resetPitcher()" class="w-full py-2 rounded-xl bg-white border-2 border-detectiveInk text-xs font-extrabold hover:bg-gray-100">
+              🔄 Reset ke Resep Asli Rina (2 Air : 1 Sari Jeruk)
+            </button>
+          </div>
+
+          <!-- Panah -->
+          <div class="lg:col-span-2 flex justify-center">
+            <div class="text-4xl font-black text-detectiveBlue rotate-90 lg:rotate-0">➡️</div>
+          </div>
+
+          <!-- Visual Teko Minuman Kanan -->
+          <div class="lg:col-span-5 flex flex-col items-center">
+            <div class="relative w-44 h-56 bg-white/90 border-4 border-detectiveInk rounded-b-3xl rounded-t-lg p-3 flex flex-col-reverse gap-1.5 overflow-hidden shadow-inner">
+              <!-- Tutup Teko -->
+              <div class="absolute top-0 left-0 right-0 h-4 bg-detectiveOrange border-b-3 border-detectiveInk"></div>
+              <!-- Gagang Teko -->
+              <div id="pitcher-cubes" class="w-full flex flex-col-reverse gap-1.5 pt-3 overflow-y-auto">
+                <!-- Kubus cairan diisi oleh JS -->
+              </div>
+            </div>
+            <div class="mt-2 text-xs font-extrabold text-detectiveInk bg-white px-3 py-1 rounded-full border-2 border-detectiveInk">
+              Total di dalam Teko: <span id="pitcher-total" class="text-detectiveOrange">3</span> Gelas
+            </div>
+          </div>
+        </div>
+
+        <!-- Hasil Perhitungan Otomatis Rina -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="rounded-2xl border-3 border-detectiveBlue overflow-hidden">
+            <div class="bg-detectiveBlue text-white text-center font-display font-bold py-1.5 text-sm">
+              Bagian vs Bagian
+            </div>
+            <div class="p-4 text-center bg-white">
+              <div id="rina-p2p" class="text-2xl sm:text-3xl font-display font-bold text-detectiveBlue">
+                Air : Sari Jeruk = 2 : 1
+              </div>
+            </div>
+          </div>
+
+          <div class="rounded-2xl border-3 border-detectiveOrange overflow-hidden">
+            <div class="bg-detectiveOrange text-white text-center font-display font-bold py-1.5 text-sm">
+              Bagian vs Keseluruhan
+            </div>
+            <div class="p-4 text-center bg-white">
+              <div id="rina-p2w" class="text-xl sm:text-2xl font-display font-bold text-detectiveOrange">
+                Sari Jeruk : Total Minuman = 1 : 3
+              </div>
+              <p id="rina-p2w-note" class="text-xs font-bold text-gray-600 mt-1">
+                (Karena 2 bagian air + 1 bagian sari jeruk = 3 bagian total)
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 9: PROYEK BERKEBUN SEKOLAH (SD MENTARI) -->
+      <div class="bg-white rounded-3xl border-4 border-detectiveInk p-6 sm:p-8 shadow-card space-y-6">
+        <div class="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <span class="inline-block bg-emerald-600 text-white text-xs font-extrabold px-3 py-1 rounded-full mb-1">KASUS #3 • LINGKUNGAN SEKOLAH</span>
+            <h3 class="text-2xl sm:text-3xl font-bold text-detectiveInk">Proyek Berkebun Sekolah (Menanam Satu Juta Pohon)</h3>
+            <p class="text-base font-bold text-gray-600">
+              SD Mentari menanam bibit pohon dalam pot panjang agar sekolah lebih hijau. Klik filter sorotan untuk menyelidiki rasionya!
+            </p>
+          </div>
+        </div>
+
+        <!-- Tombol Filter Sorotan Pohon -->
+        <div class="flex flex-wrap gap-2">
+          <button onclick="highlightTrees('all')" id="tree-btn-all" class="px-4 py-2 rounded-xl font-bold text-sm border-2 border-detectiveInk bg-detectiveInk text-white">
+            Semua Pohon (10)
+          </button>
+          <button onclick="highlightTrees('p2p')" id="tree-btn-p2p" class="px-4 py-2 rounded-xl font-bold text-sm border-2 border-detectiveInk bg-white text-detectiveInk hover:bg-orange-50">
+            Sorot Bagian vs Bagian (4 : 6)
+          </button>
+          <button onclick="highlightTrees('p2w')" id="tree-btn-p2w" class="px-4 py-2 rounded-xl font-bold text-sm border-2 border-detectiveInk bg-white text-detectiveInk hover:bg-blue-50">
+            Sorot Bagian vs Total (4 : 10)
+          </button>
+        </div>
+
+        <!-- Ilustrasi Pot Panjang dengan 4 Pucuk Merah & 6 Cemara -->
+        <div class="bg-detectiveCream rounded-2xl border-3 border-detectiveInk p-6 overflow-x-auto">
+          <div id="garden-trees" class="min-w-[560px] flex items-end justify-center gap-3 pt-4">
+            <!-- 4 Pohon Pucuk Merah (Oranye-Merah) -->
+            <div class="tree-item tree-red flex flex-col items-center transition-transform duration-300">
+              <svg class="w-14 h-24" viewBox="0 0 60 100">
+                <rect x="25" y="65" width="10" height="35" fill="#7c4a21" stroke="#1e2631" stroke-width="2.5"/>
+                <circle cx="30" cy="45" r="22" fill="#ff6b00" stroke="#1e2631" stroke-width="2.5"/>
+                <circle cx="22" cy="36" r="14" fill="#ff4500" stroke="#1e2631" stroke-width="2"/>
+                <circle cx="38" cy="38" r="13" fill="#ff8c00" stroke="#1e2631" stroke-width="2"/>
+              </svg>
+              <span class="text-[11px] font-extrabold text-detectiveOrangeDark mt-1">Pucuk 1</span>
+            </div>
+            <div class="tree-item tree-red flex flex-col items-center transition-transform duration-300">
+              <svg class="w-14 h-24" viewBox="0 0 60 100">
+                <rect x="25" y="65" width="10" height="35" fill="#7c4a21" stroke="#1e2631" stroke-width="2.5"/>
+                <circle cx="30" cy="45" r="22" fill="#ff6b00" stroke="#1e2631" stroke-width="2.5"/>
+                <circle cx="22" cy="36" r="14" fill="#ff4500" stroke="#1e2631" stroke-width="2"/>
+                <circle cx="38" cy="38" r="13" fill="#ff8c00" stroke="#1e2631" stroke-width="2"/>
+              </svg>
+              <span class="text-[11px] font-extrabold text-detectiveOrangeDark mt-1">Pucuk 2</span>
+            </div>
+            <div class="tree-item tree-red flex flex-col items-center transition-transform duration-300">
+              <svg class="w-14 h-24" viewBox="0 0 60 100">
+                <rect x="25" y="65" width="10" height="35" fill="#7c4a21" stroke="#1e2631" stroke-width="2.5"/>
+                <circle cx="30" cy="45" r="22" fill="#ff6b00" stroke="#1e2631" stroke-width="2.5"/>
+                <circle cx="22" cy="36" r="14" fill="#ff4500" stroke="#1e2631" stroke-width="2"/>
+                <circle cx="38" cy="38" r="13" fill="#ff8c00" stroke="#1e2631" stroke-width="2"/>
+              </svg>
+              <span class="text-[11px] font-extrabold text-detectiveOrangeDark mt-1">Pucuk 3</span>
+            </div>
+            <div class="tree-item tree-red flex flex-col items-center transition-transform duration-300">
+              <svg class="w-14 h-24" viewBox="0 0 60 100">
+                <rect x="25" y="65" width="10" height="35" fill="#7c4a21" stroke="#1e2631" stroke-width="2.5"/>
+                <circle cx="30" cy="45" r="22" fill="#ff6b00" stroke="#1e2631" stroke-width="2.5"/>
+                <circle cx="22" cy="36" r="14" fill="#ff4500" stroke="#1e2631" stroke-width="2"/>
+                <circle cx="38" cy="38" r="13" fill="#ff8c00" stroke="#1e2631" stroke-width="2"/>
+              </svg>
+              <span class="text-[11px] font-extrabold text-detectiveOrangeDark mt-1">Pucuk 4</span>
+            </div>
+
+            <!-- 6 Pohon Cemara (Biru-Toska) -->
+            <div class="tree-item tree-pine flex flex-col items-center transition-transform duration-300">
+              <svg class="w-14 h-24" viewBox="0 0 60 100">
+                <rect x="25" y="75" width="10" height="25" fill="#7c4a21" stroke="#1e2631" stroke-width="2.5"/>
+                <polygon points="30,10 10,45 50,45" fill="#0088e8" stroke="#1e2631" stroke-width="2.5"/>
+                <polygon points="30,30 8,62 52,62" fill="#00a8b5" stroke="#1e2631" stroke-width="2.5"/>
+                <polygon points="30,48 6,78 54,78" fill="#0088e8" stroke="#1e2631" stroke-width="2.5"/>
+              </svg>
+              <span class="text-[11px] font-extrabold text-detectiveBlueDark mt-1">Cemara 1</span>
+            </div>
+            <div class="tree-item tree-pine flex flex-col items-center transition-transform duration-300">
+              <svg class="w-14 h-24" viewBox="0 0 60 100">
+                <rect x="25" y="75" width="10" height="25" fill="#7c4a21" stroke="#1e2631" stroke-width="2.5"/>
+                <polygon points="30,10 10,45 50,45" fill="#0088e8" stroke="#1e2631" stroke-width="2.5"/>
+                <polygon points="30,30 8,62 52,62" fill="#00a8b5" stroke="#1e2631" stroke-width="2.5"/>
+                <polygon points="30,48 6,78 54,78" fill="#0088e8" stroke="#1e2631" stroke-width="2.5"/>
+              </svg>
+              <span class="text-[11px] font-extrabold text-detectiveBlueDark mt-1">Cemara 2</span>
+            </div>
+            <div class="tree-item tree-pine flex flex-col items-center transition-transform duration-300">
+              <svg class="w-14 h-24" viewBox="0 0 60 100">
+                <rect x="25" y="75" width="10" height="25" fill="#7c4a21" stroke="#1e2631" stroke-width="2.5"/>
+                <polygon points="30,10 10,45 50,45" fill="#0088e8" stroke="#1e2631" stroke-width="2.5"/>
+                <polygon points="30,30 8,62 52,62" fill="#00a8b5" stroke="#1e2631" stroke-width="2.5"/>
+                <polygon points="30,48 6,78 54,78" fill="#0088e8" stroke="#1e2631" stroke-width="2.5"/>
+              </svg>
+              <span class="text-[11px] font-extrabold text-detectiveBlueDark mt-1">Cemara 3</span>
+            </div>
+            <div class="tree-item tree-pine flex flex-col items-center transition-transform duration-300">
+              <svg class="w-14 h-24" viewBox="0 0 60 100">
+                <rect x="25" y="75" width="10" height="25" fill="#7c4a21" stroke="#1e2631" stroke-width="2.5"/>
+                <polygon points="30,10 10,45 50,45" fill="#0088e8" stroke="#1e2631" stroke-width="2.5"/>
+                <polygon points="30,30 8,62 52,62" fill="#00a8b5" stroke="#1e2631" stroke-width="2.5"/>
+                <polygon points="30,48 6,78 54,78" fill="#0088e8" stroke="#1e2631" stroke-width="2.5"/>
+              </svg>
+              <span class="text-[11px] font-extrabold text-detectiveBlueDark mt-1">Cemara 4</span>
+            </div>
+            <div class="tree-item tree-pine flex flex-col items-center transition-transform duration-300">
+              <svg class="w-14 h-24" viewBox="0 0 60 100">
+                <rect x="25" y="75" width="10" height="25" fill="#7c4a21" stroke="#1e2631" stroke-width="2.5"/>
+                <polygon points="30,10 10,45 50,45" fill="#0088e8" stroke="#1e2631" stroke-width="2.5"/>
+                <polygon points="30,30 8,62 52,62" fill="#00a8b5" stroke="#1e2631" stroke-width="2.5"/>
+                <polygon points="30,48 6,78 54,78" fill="#0088e8" stroke="#1e2631" stroke-width="2.5"/>
+              </svg>
+              <span class="text-[11px] font-extrabold text-detectiveBlueDark mt-1">Cemara 5</span>
+            </div>
+            <div class="tree-item tree-pine flex flex-col items-center transition-transform duration-300">
+              <svg class="w-14 h-24" viewBox="0 0 60 100">
+                <rect x="25" y="75" width="10" height="25" fill="#7c4a21" stroke="#1e2631" stroke-width="2.5"/>
+                <polygon points="30,10 10,45 50,45" fill="#0088e8" stroke="#1e2631" stroke-width="2.5"/>
+                <polygon points="30,30 8,62 52,62" fill="#00a8b5" stroke="#1e2631" stroke-width="2.5"/>
+                <polygon points="30,48 6,78 54,78" fill="#0088e8" stroke="#1e2631" stroke-width="2.5"/>
+              </svg>
+              <span class="text-[11px] font-extrabold text-detectiveBlueDark mt-1">Cemara 6</span>
+            </div>
+          </div>
+          <!-- Pot Kayu Panjang -->
+          <div class="min-w-[560px] mt-1 h-10 bg-amber-700 border-4 border-detectiveInk rounded-xl shadow-inner flex items-center justify-center text-white text-xs font-extrabold tracking-wide">
+            POT TANAMAN SD MENTARI (4 PUCUK MERAH + 6 CEMARA = 10 POHON)
+          </div>
+        </div>
+
+        <!-- Ringkasan Rasio Pohon Slide 9 -->
+        <div class="rounded-2xl border-3 border-detectiveInk overflow-hidden divide-y-2 divide-detectiveInk font-bold text-base sm:text-lg">
+          <div class="p-4 bg-gray-100">
+            1. Rasio Pucuk Merah terhadap Cemara = <span class="text-detectiveOrange font-black">4 : 6</span> <span class="text-gray-600">(Bagian vs Bagian)</span>
+          </div>
+          <div class="p-4 bg-white">
+            2. Rasio Pucuk Merah terhadap TOTAL Pohon = <span class="text-detectiveBlue font-black">4 : 10</span> <span class="text-gray-600">(Bagian vs Keseluruhan)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-between">
+        <button onclick="switchTab('tab1')" class="btn-detective bg-white text-detectiveInk font-display font-bold px-5 py-3 rounded-2xl border-3 border-detectiveInk shadow-btn">
+          ⬅️ Kembali
+        </button>
+        <button onclick="switchTab('tab3')" class="btn-detective bg-detectiveBlue text-white font-display font-bold text-lg px-6 py-3.5 rounded-2xl border-3 border-detectiveInk shadow-btn hover:bg-detectiveBlueDark">
+          Lanjut ke Aturan Emas &amp; Cheat Sheet ➡️
+        </button>
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- TAB 3: ATURAN EMAS & CHEAT SHEET (SLIDE 10 & 11)          -->
+    <!-- ========================================================= -->
+    <section id="tab3" class="tab-panel hidden fade-in-panel space-y-8">
+
+      <!-- SLIDE 10: ATURAN EMAS RASIO: SEDERHANAKAN! -->
+      <div class="bg-white rounded-3xl border-4 border-detectiveInk p-6 sm:p-8 shadow-card space-y-6">
+        <div class="text-center space-y-1">
+          <span class="inline-block bg-amber-400 text-detectiveInk text-xs font-black px-3 py-1 rounded-full border border-detectiveInk">✨ ATURAN EMAS DETEKTIF</span>
+          <h3 class="text-2xl sm:text-4xl font-bold text-detectiveInk">Aturan Emas Rasio: Sederhanakan!</h3>
+        </div>
+
+        <!-- Simulator Pita Penyederhanaan FPB -->
+        <div class="bg-detectiveCream rounded-2xl border-3 border-detectiveInk p-5 sm:p-6 space-y-6">
+          <div class="flex flex-wrap items-center justify-center gap-4 bg-white p-4 rounded-2xl border-2 border-detectiveInk">
+            <label class="font-extrabold text-sm sm:text-base flex items-center gap-2">
+              <span class="w-4 h-4 rounded bg-detectiveOrange inline-block"></span> Sisi Kiri (A):
+              <input id="simp-a" type="number" min="1" max="30" value="4" oninput="calculateSimplification()" class="w-20 px-3 py-1.5 rounded-xl border-2 border-detectiveInk font-display font-bold text-center text-lg text-detectiveOrange" />
+            </label>
+            <span class="text-2xl font-black">:</span>
+            <label class="font-extrabold text-sm sm:text-base flex items-center gap-2">
+              <span class="w-4 h-4 rounded bg-detectiveBlue inline-block"></span> Sisi Kanan (B):
+              <input id="simp-b" type="number" min="1" max="30" value="6" oninput="calculateSimplification()" class="w-20 px-3 py-1.5 rounded-xl border-2 border-detectiveInk font-display font-bold text-center text-lg text-detectiveBlue" />
+            </label>
+            <button onclick="setSimpPreset(4, 6)" class="text-xs font-extrabold bg-gray-100 hover:bg-gray-200 px-3 py-2 rounded-xl border border-detectiveInk">
+              Contoh Slide (4 : 6)
+            </button>
+            <button onclick="setSimpPreset(12, 18)" class="text-xs font-extrabold bg-gray-100 hover:bg-gray-200 px-3 py-2 rounded-xl border border-detectiveInk">
+              Contoh SD Limpung (12 : 18)
+            </button>
+          </div>
+
+          <!-- Pita Visual Atas (Sebelum disederhanakan) -->
+          <div class="space-y-2 text-center">
+            <div class="text-xs font-extrabold uppercase text-gray-500">Pita Awal</div>
+            <div id="ribbon-top" class="flex justify-center flex-wrap gap-1">
+              <!-- Diisi JS -->
+            </div>
+            <div id="ribbon-top-label" class="text-2xl sm:text-3xl font-display font-bold text-detectiveInk">4 : 6</div>
+          </div>
+
+          <!-- Panah Pembagi FPB -->
+          <div class="flex items-center justify-center gap-3">
+            <div class="w-12 h-12 rounded-2xl bg-detectiveOrange text-white border-3 border-detectiveInk flex items-center justify-center text-2xl font-black shadow-btn">
+              ⬇️
+            </div>
+            <div class="bg-white px-4 py-2 rounded-xl border-2 border-detectiveInk font-display font-bold text-lg sm:text-xl">
+              ÷ <span id="fpb-value" class="text-detectiveOrange">2</span> <span class="text-sm font-body font-extrabold text-gray-600">(FPB)</span>
+            </div>
+          </div>
+
+          <!-- Pita Visual Bawah (Setelah disederhanakan) -->
+          <div class="space-y-2 text-center">
+            <div class="text-xs font-extrabold uppercase text-gray-500">Pita Paling Sederhana</div>
+            <div id="ribbon-bottom" class="flex justify-center flex-wrap gap-1">
+              <!-- Diisi JS -->
+            </div>
+            <div id="ribbon-bottom-label" class="text-3xl sm:text-4xl font-display font-bold text-detectiveBlue">2 : 3</div>
+          </div>
+        </div>
+
+        <!-- Kotak Penjelasan Slide 10 -->
+        <div class="bg-sky-50 border-3 border-detectiveBlue rounded-2xl p-5 text-center space-y-2">
+          <p id="simp-summary-title" class="text-lg sm:text-xl font-extrabold text-detectiveInk">
+            Kesamaan Rasio. Rasio 4 : 6 itu BENAR, tapi rasio 2 : 3 itu LEBIH SEDERHANA dan SETARA.
+          </p>
+          <p class="text-sm sm:text-base font-bold text-gray-700">
+            Sama seperti pecahan, bagilah kedua sisi dengan angka pembagi yang sama (<strong>Faktor Persekutuan Terbesar / FPB</strong>) untuk menemukan bentuk paling sederhana tanpa mengubah nilai perbandingannya!
+          </p>
+        </div>
+      </div>
+
+      <!-- SLIDE 11: CATATAN PINTAR DETEKTIF RASIO (CHEAT SHEET) -->
+      <div class="space-y-5">
+        <div class="text-center">
+          <h3 class="text-2xl sm:text-3xl font-bold text-detectiveInk">
+            Catatan Pintar Detektif Rasio (Cheat Sheet)
+          </h3>
+          <p class="text-sm font-bold text-gray-600">Simpan 3 kartu sakti ini di ingatanmu sebelum memecahkan misi!</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Kartu 1: Simbol Rasio (Oranye) -->
+          <div class="bg-detectiveOrange text-white rounded-3xl border-4 border-detectiveInk shadow-card overflow-hidden flex flex-col">
+            <div class="bg-detectiveOrangeDark py-3 px-4 text-center font-display font-bold text-xl border-b-3 border-detectiveInk">
+              Simbol Rasio
+            </div>
+            <div class="p-6 flex-1 flex flex-col justify-center text-center space-y-4">
+              <div class="text-4xl font-display font-bold bg-white text-detectiveOrange py-2 px-4 rounded-2xl border-2 border-detectiveInk mx-auto">
+                : &nbsp;atau&nbsp; a/b
+              </div>
+              <p class="text-base sm:text-lg font-bold leading-relaxed">
+                Tanda Titik Dua ( <strong>:</strong> ) atau pecahan ( <strong>a/b</strong> ). Keduanya adalah cara matematika untuk berkata <em>‘dibandingkan dengan’</em>.
+              </p>
+            </div>
+          </div>
+
+          <!-- Kartu 2: Bagian vs Bagian (Biru) -->
+          <div class="bg-detectiveBlue text-white rounded-3xl border-4 border-detectiveInk shadow-card overflow-hidden flex flex-col">
+            <div class="bg-detectiveBlueDark py-3 px-4 text-center font-display font-bold text-xl border-b-3 border-detectiveInk">
+              Bagian vs Bagian
+            </div>
+            <div class="p-6 flex-1 flex flex-col justify-center text-center space-y-4">
+              <p class="text-base sm:text-lg font-bold leading-relaxed">
+                Membandingkan isi.<br/>
+                <span class="text-sky-200">(Apel : Jeruk)</span>
+              </p>
+              <div class="bg-white text-detectiveBlue font-display font-bold text-2xl py-2.5 px-4 rounded-2xl border-2 border-detectiveInk">
+                Rumus: A : B
+              </div>
+              <p class="text-base font-extrabold text-yellow-200">
+                Angka total tidak dipakai!
+              </p>
+            </div>
+          </div>
+
+          <!-- Kartu 3: Bagian vs Keseluruhan (Abu-abu Terang) -->
+          <div class="bg-gray-200 text-detectiveInk rounded-3xl border-4 border-detectiveInk shadow-card overflow-hidden flex flex-col">
+            <div class="bg-gray-300 py-3 px-4 text-center font-display font-bold text-xl border-b-3 border-detectiveInk">
+              Bagian vs Keseluruhan
+            </div>
+            <div class="p-6 flex-1 flex flex-col justify-center text-center space-y-4">
+              <p class="text-base sm:text-lg font-bold leading-relaxed">
+                Membandingkan isi dengan total.<br/>
+                <span class="text-gray-600">(Apel : Semua Buah)</span>
+              </p>
+              <div class="bg-white text-detectiveInk font-display font-bold text-xl sm:text-2xl py-2.5 px-4 rounded-2xl border-2 border-detectiveInk">
+                Rumus: A : (A+B)
+              </div>
+              <p class="text-base font-extrabold text-detectiveOrangeDark">
+                Total gabungan menjadi kunci!
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-between">
+        <button onclick="switchTab('tab2')" class="btn-detective bg-white text-detectiveInk font-display font-bold px-5 py-3 rounded-2xl border-3 border-detectiveInk shadow-btn">
+          ⬅️ Kembali
+        </button>
+        <button onclick="switchTab('tab4')" class="btn-detective bg-detectiveOrange text-white font-display font-bold text-lg px-6 py-3.5 rounded-2xl border-3 border-detectiveInk shadow-btn hover:bg-detectiveOrangeDark">
+          Siap Hadapi Misi Detektif! 🏆
+        </button>
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- TAB 4: MISI DETEKTIF & KUIS INTERAKTIF (SLIDE 8 & 12)     -->
+    <!-- ========================================================= -->
+    <section id="tab4" class="tab-panel hidden fade-in-panel space-y-8">
+
+      <!-- SLIDE 8: MISI DETEKTIF RASIO (SEMEN & PASIR + KUNCI TERBALIK) -->
+      <div class="bg-white rounded-3xl border-4 border-detectiveInk p-6 sm:p-8 shadow-card relative space-y-6">
+        <div class="text-center space-y-3">
+          <span class="inline-block bg-detectiveInk text-white text-xs font-extrabold px-3.5 py-1 rounded-full">MISI UTAMA SLIDE 8</span>
+          <h3 class="text-3xl sm:text-4xl font-display font-bold text-detectiveInk tracking-wide">
+            MISI DETEKTIF RASIO!
+          </h3>
+
+          <!-- Ilustrasi Tumpukan Semen (Biru) dan Pasir (Oranye) Slide 8 -->
+          <div class="flex justify-center items-end gap-6 py-2">
+            <div class="text-center">
+              <svg class="w-28 h-16" viewBox="0 0 120 70">
+                <polygon points="10,65 35,20 85,20 110,65" fill="#0088e8" stroke="#1e2631" stroke-width="3"/>
+                <rect x="42" y="14" width="36" height="10" rx="2" fill="#38bdf8" stroke="#1e2631" stroke-width="2"/>
+              </svg>
+              <span class="text-xs font-extrabold text-detectiveBlue">1 Bagian Semen</span>
+            </div>
+            <div class="text-center">
+              <svg class="w-32 h-16" viewBox="0 0 140 70">
+                <path d="M10,65 Q70,5 130,65 Z" fill="#ff6b00" stroke="#1e2631" stroke-width="3"/>
+                <circle cx="55" cy="48" r="2.5" fill="#1e2631"/><circle cx="75" cy="42" r="2.5" fill="#1e2631"/><circle cx="88" cy="54" r="2.5" fill="#1e2631"/>
+              </svg>
+              <span class="text-xs font-extrabold text-detectiveOrange">4 Bagian Pasir</span>
+            </div>
+          </div>
+
+          <p class="max-w-2xl mx-auto text-lg sm:text-xl font-extrabold text-detectiveInk leading-relaxed">
+            Jika rasio campuran antara <span class="text-detectiveBlue">Semen</span> dan <span class="text-detectiveOrange">Pasir</span> untuk membangun rumah adalah <strong>1 : 4</strong>...<br/>
+            Berapakah rasio <strong>Semen terhadap TOTAL adonan bangunan</strong> tersebut?
+          </p>
+        </div>
+
+        <!-- Pilihan Jawaban Interaktif Misi Utama -->
+        <div class="max-w-xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <button onclick="checkMainMission('1:4', this)" class="mission-opt btn-detective py-3 px-4 rounded-2xl border-3 border-detectiveInk bg-detectiveCream font-display font-bold text-xl hover:bg-blue-50">
+            1 : 4
+          </button>
+          <button onclick="checkMainMission('1:5', this)" class="mission-opt btn-detective py-3 px-4 rounded-2xl border-3 border-detectiveInk bg-detectiveCream font-display font-bold text-xl hover:bg-blue-50">
+            1 : 5
+          </button>
+          <button onclick="checkMainMission('4:5', this)" class="mission-opt btn-detective py-3 px-4 rounded-2xl border-3 border-detectiveInk bg-detectiveCream font-display font-bold text-xl hover:bg-blue-50">
+            4 : 5
+          </button>
+          <button onclick="checkMainMission('5:1', this)" class="mission-opt btn-detective py-3 px-4 rounded-2xl border-3 border-detectiveInk bg-detectiveCream font-display font-bold text-xl hover:bg-blue-50">
+            5 : 1
+          </button>
+        </div>
+
+        <div id="main-mission-feedback" class="hidden max-w-xl mx-auto p-4 rounded-2xl border-2 text-center font-bold text-sm sm:text-base"></div>
+
+        <!-- Kotak Kunci Jawaban Terbalik (Seperti Pojok Kanan Bawah Slide 8) -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t-2 border-dashed border-gray-300">
+          <button onclick="toggleUpsideDownAnswer()" class="btn-detective inline-flex items-center gap-2 bg-detectiveBlue text-white font-bold text-sm px-4 py-2.5 rounded-xl border-2 border-detectiveInk shadow-btn">
+            🔄 Putar Kotak Kunci Jawaban Slide 8
+          </button>
+
+          <div id="upside-down-card" class="upside-down-box is-upside-down bg-detectiveCream border-3 border-detectiveInk rounded-2xl p-3.5 max-w-xs text-center shadow-sm">
+            <div class="font-display font-bold text-base text-detectiveOrange">Jawaban: 1 : 5</div>
+            <div class="text-xs font-bold text-detectiveInk">
+              (Karena 1 bagian semen + 4 bagian pasir = 5 bagian total adonan).
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- KUIS MISI DETEKTIF (5 SOAL PILIHAN GANDA) -->
+      <div class="bg-white rounded-3xl border-4 border-detectiveInk p-6 sm:p-8 shadow-card space-y-6">
+        <div class="flex flex-wrap items-center justify-between gap-2 border-b-3 border-gray-200 pb-4">
+          <div>
+            <span class="text-xs font-extrabold uppercase text-detectiveOrange">Uji Kemampuan Detektif</span>
+            <h3 class="text-2xl sm:text-3xl font-bold text-detectiveInk">Kuis Misi Detektif (5 Kasus)</h3>
+          </div>
+          <div class="bg-detectiveCream px-4 py-2 rounded-2xl border-2 border-detectiveInk font-display font-bold text-base">
+            Skor Kuis: <span id="quiz-score" class="text-detectiveBlue">0</span> / 5
+          </div>
+        </div>
+
+        <div id="quiz-container" class="space-y-6">
+          <!-- Daftar 5 soal di-render oleh JavaScript -->
+        </div>
+      </div>
+
+      <!-- SLIDE 12: SERTIFIKAT AHLI DETEKTIF RASIO & TANTANGAN HARI INI -->
+      <div class="bg-white rounded-3xl border-4 border-detectiveInk p-6 sm:p-8 shadow-card space-y-6">
+        <div class="text-center space-y-3">
+          <!-- Lencana Piala Biru-Oranye Slide 12 -->
+          <div class="flex justify-center">
+            <svg class="w-48 h-40" viewBox="0 0 220 180">
+              <!-- Hexagon Biru & Oranye -->
+              <polygon points="110,10 185,52 185,128 110,170 35,128 35,52" fill="#f7f6f0" stroke="#0088e8" stroke-width="10"/>
+              <polygon points="110,10 185,52 110,90" fill="#ff6b00" opacity="0.2"/>
+              <polygon points="35,128 110,170 110,90" fill="#0088e8" opacity="0.2"/>
+              <!-- Piala -->
+              <path d="M80,45 L140,45 L132,90 C130,105 90,105 88,90 Z" fill="#ff9f1c" stroke="#1e2631" stroke-width="3"/>
+              <path d="M80,52 C62,52 62,78 84,78" fill="none" stroke="#ff6b00" stroke-width="5"/>
+              <path d="M140,52 C158,52 158,78 136,78" fill="none" stroke="#ff6b00" stroke-width="5"/>
+              <rect x="103" y="100" width="14" height="22" fill="#ff6b00" stroke="#1e2631" stroke-width="2.5"/>
+              <rect x="85" y="122" width="50" height="12" rx="3" fill="#0088e8" stroke="#1e2631" stroke-width="2.5"/>
+              <!-- Pita Oranye -->
+              <rect x="20" y="92" width="180" height="28" rx="6" transform="rotate(-7 110 106)" fill="#ff6b00" stroke="#1e2631" stroke-width="2.5"/>
+              <text x="110" y="111" transform="rotate(-7 110 106)" text-anchor="middle" fill="#ffffff" font-family="Fredoka, sans-serif" font-weight="700" font-size="13">
+                AHLI DETEKTIF RASIO
+              </text>
+            </svg>
+          </div>
+
+          <h3 class="text-2xl sm:text-4xl font-display font-bold text-detectiveInk">
+            Misi Selesai! Kamu Sekarang Ahli Rasio.
+          </h3>
+
+          <!-- Input Nama untuk Lencana Detektif -->
+          <div class="max-w-md mx-auto bg-detectiveCream p-4 rounded-2xl border-3 border-detectiveInk space-y-2">
+            <label for="student-name-input" class="block text-xs font-extrabold uppercase text-gray-600">
+              Ketik Namamu di Kartu Lencana Detektif:
+            </label>
+            <input id="student-name-input" type="text" placeholder="Contoh: Budi Santoso - Kelas 6A" oninput="updateBadgeName(this.value)" class="w-full px-4 py-2.5 rounded-xl border-2 border-detectiveInk font-bold text-center text-detectiveInk bg-white focus:outline-none focus:border-detectiveBlue" />
+            <div id="badge-name-preview" class="pt-1 font-display font-bold text-xl text-detectiveBlue">
+              🕵️‍♂️ Detektif Kelas 6 Hebat
+            </div>
+          </div>
+        </div>
+
+        <!-- Kotak Tantangan Hari Ini Slide 12 -->
+        <div class="rounded-3xl border-4 border-detectiveOrange bg-orange-50/70 p-5 sm:p-6 space-y-4">
+          <p class="text-base sm:text-lg font-bold text-center text-detectiveInk leading-relaxed">
+            <strong class="text-detectiveOrangeDark">Tantangan Hari Ini:</strong> Coba temukan satu rasio di kelasmu hari ini (Misal: Meja 🧑‍🏫 Kursi, Jendela 🪟 Pintu, atau Siswa Laki-laki vs Perempuan). Bandingkan bagiannya, lalu bandingkan dengan total keseluruhannya! ⚖️
+          </p>
+
+          <!-- Form Catatan Tantangan Kelas Interaktif -->
+          <div class="bg-white rounded-2xl border-2 border-detectiveInk p-4 grid grid-cols-1 sm:grid-cols-3 gap-3 items-end">
+            <div>
+              <label class="block text-xs font-extrabold text-gray-600 mb-1">Benda A (Contoh: Meja)</label>
+              <input id="chal-name-a" type="text" placeholder="Meja" class="w-full px-3 py-2 rounded-xl border-2 border-detectiveInk text-sm font-bold" />
+            </div>
+            <div>
+              <label class="block text-xs font-extrabold text-gray-600 mb-1">Jumlah Benda A</label>
+              <input id="chal-num-a" type="number" min="1" placeholder="15" class="w-full px-3 py-2 rounded-xl border-2 border-detectiveInk text-sm font-bold" />
+            </div>
+            <div>
+              <label class="block text-xs font-extrabold text-gray-600 mb-1">Benda B (Contoh: Kursi)</label>
+              <input id="chal-name-b" type="text" placeholder="Kursi" class="w-full px-3 py-2 rounded-xl border-2 border-detectiveInk text-sm font-bold" />
+            </div>
+            <div>
+              <label class="block text-xs font-extrabold text-gray-600 mb-1">Jumlah Benda B</label>
+              <input id="chal-num-b" type="number" min="1" placeholder="30" class="w-full px-3 py-2 rounded-xl border-2 border-detectiveInk text-sm font-bold" />
+            </div>
+            <div class="sm:col-span-2">
+              <button onclick="generateClassChallenge()" class="btn-detective w-full py-2.5 px-4 rounded-xl bg-detectiveBlue text-white font-display font-bold border-2 border-detectiveInk shadow-btn hover:bg-detectiveBlueDark">
+                🔍 Analisis Rasio Kelasku!
+              </button>
+            </div>
+          </div>
+
+          <div id="challenge-result" class="hidden bg-white rounded-2xl border-3 border-detectiveBlue p-4 text-center space-y-1">
+            <!-- Hasil analisis tantangan kelas -->
+          </div>
+        </div>
+
+        <p class="text-center text-base sm:text-lg font-extrabold text-detectiveBlue">
+          👓 Matematika ada di mana-mana, cukup gunakan kacamata detektifmu!
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-detectiveInk text-white py-5 px-4 mt-10 border-t-4 border-detectiveOrange">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-xs sm:text-sm font-bold text-gray-300">
+      <div>🕵️‍♂️ Media Pembelajaran Interaktif Matematika Kelas 6 SD — Tema: Detektif Rasio</div>
+      <div>Bagian vs Bagian &amp; Bagian vs Keseluruhan</div>
+    </div>
+  </footer>
+
+  <!-- JAVASCRIPT LOGIKA INTERAKTIF -->
+  <script>
+    // ==========================================
+    // STATE APLIKASI & POIN DETEKTIF
+    // ==========================================
+    let detectiveXP = 0;
+    const unlockedAchievements = new Set();
+
+    function addDetectiveXP(key, points) {
+      if (unlockedAchievements.has(key)) return;
+      unlockedAchievements.add(key);
+      detectiveXP = Math.min(100, detectiveXP + points);
+      document.getElementById('detective-points').textContent = detectiveXP;
+
+      const rankEl = document.getElementById('detective-rank');
+      if (detectiveXP >= 80) {
+        rankEl.textContent = 'Ahli Detektif Rasio 🏆';
+      } else if (detectiveXP >= 40) {
+        rankEl.textContent = 'Detektif Junior 🔍';
+      } else {
+        rankEl.textContent = 'Detektif Pemula';
+      }
+    }
+
+    // ==========================================
+    // NAVIGASI TAB
+    // ==========================================
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-panel').forEach(panel => {
+        panel.classList.add('hidden');
+      });
+      const activePanel = document.getElementById(tabId);
+      activePanel.classList.remove('hidden');
+
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('bg-detectiveBlue', 'text-white', 'shadow-btn');
+        btn.classList.add('bg-white', 'text-detectiveInk');
+      });
+
+      const activeBtn = document.getElementById('btn-' + tabId);
+      activeBtn.classList.remove('bg-white', 'text-detectiveInk');
+      activeBtn.classList.add('bg-detectiveBlue', 'text-white', 'shadow-btn');
+
+      addDetectiveXP('visit-' + tabId, 5);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ==========================================
+    // SLIDE 2: INTERAKSI JERUK & BLUBERI
+    // ==========================================
+    let orangeCount = 3;
+    let blueberryCount = 2;
+
+    function renderFruitBasket() {
+      const basket = document.getElementById('fruit-basket');
+      basket.innerHTML = '';
+
+      for (let i = 0; i < orangeCount; i++) {
+        const span = document.createElement('span');
+        span.className = 'text-4xl select-none transition-transform hover:scale-110';
+        span.title = 'Jeruk';
+        span.textContent = '🍊';
+        basket.appendChild(span);
+      }
+      for (let i = 0; i < blueberryCount; i++) {
+        const span = document.createElement('span');
+        span.className = 'text-3xl select-none transition-transform hover:scale-110';
+        span.title = 'Bluberi';
+        span.textContent = '🫐';
+        basket.appendChild(span);
+      }
+
+      document.getElementById('orange-count').textContent = orangeCount;
+      document.getElementById('blueberry-count').textContent = blueberryCount;
+      document.getElementById('fruit-sentence').textContent =
+        `Untuk setiap ${orangeCount} jeruk, ada ${blueberryCount} bluberi!`;
+      document.getElementById('fruit-ratio-display').textContent =
+        `${orangeCount} : ${blueberryCount}`;
+    }
+
+    function updateFruit(type, delta) {
+      if (type === 'orange') {
+        orangeCount = Math.max(1, Math.min(8, orangeCount + delta));
+      } else {
+        blueberryCount = Math.max(1, Math.min(8, blueberryCount + delta));
+      }
+      addDetectiveXP('interact-fruit', 10);
+      renderFruitBasket();
+    }
+
+    function resetFruit() {
+      orangeCount = 3;
+      blueberryCount = 2;
+      renderFruitBasket();
+    }
+
+    // ==========================================
+    // SLIDE 4 & 5: TOGGLE KONSEP 1 vs KONSEP 2
+    // ==========================================
+    function setConceptMode(mode) {
+      const titleEl = document.getElementById('concept-title');
+      const subEl = document.getElementById('concept-subtitle');
+      const btnP2P = document.getElementById('btn-mode-p2p');
+      const btnP2W = document.getElementById('btn-mode-p2w');
+      const barRight = document.getElementById('bar-right-label');
+      const formulaBox = document.getElementById('concept-formula-box');
+      const wholeBadge = document.getElementById('whole-badge');
+      const ringB = document.getElementById('group-b-ring');
+
+      if (mode === 'part-to-part') {
+        titleEl.textContent = 'Konsep 1: Bagian vs Bagian (Part-to-Part)';
+        subEl.textContent = 'Membandingkan satu kelompok langsung dengan kelompok lainnya.';
+        btnP2P.className = 'px-4 py-2 rounded-xl font-display font-bold text-sm bg-detectiveBlue text-white shadow-sm transition';
+        btnP2W.className = 'px-4 py-2 rounded-xl font-display font-bold text-sm text-detectiveInk hover:bg-white transition';
+        barRight.textContent = 'Kelompok B (6)';
+        formulaBox.innerHTML = 'Laki-laki : Perempuan = <span class="text-detectiveBlue">4 : 6</span> (Atau jika disederhanakan: <span class="text-detectiveOrange">2 : 3</span>)';
+        wholeBadge.classList.add('hidden');
+        ringB.classList.remove('ring-4', 'ring-detectiveBlue/40');
+      } else {
+        titleEl.textContent = 'Konsep 2: Bagian vs Keseluruhan (Part-to-Whole)';
+        subEl.textContent = 'Membandingkan satu kelompok kecil dengan TOTAL seluruh kelompok yang digabung.';
+        btnP2W.className = 'px-4 py-2 rounded-xl font-display font-bold text-sm bg-detectiveOrange text-white shadow-sm transition';
+        btnP2P.className = 'px-4 py-2 rounded-xl font-display font-bold text-sm text-detectiveInk hover:bg-white transition';
+        barRight.textContent = '(Kelompok A + Kelompok B = 10)';
+        formulaBox.innerHTML = 'Laki-laki : Total Siswa = <span class="text-detectiveBlue">4 : 10</span> (Atau jika disederhanakan: <span class="text-detectiveOrange">2 : 5</span>)';
+        wholeBadge.classList.remove('hidden');
+        ringB.classList.add('ring-4', 'ring-detectiveBlue/40');
+        addDetectiveXP('toggle-concept', 10);
+      }
+    }
+
+    // ==========================================
+    // SLIDE 7: SIMULATOR TEKO RESEP RINA
+    // ==========================================
+    let waterCups = 2;
+    let juiceCups = 1;
+
+    function renderPitcher() {
+      const container = document.getElementById('pitcher-cubes');
+      container.innerHTML = '';
+
+      for (let i = 0; i < waterCups; i++) {
+        const cube = document.createElement('div');
+        cube.className = 'w-full py-1.5 rounded-xl bg-detectiveBlue text-white font-display font-bold text-xs text-center border-2 border-detectiveInk shadow-sm';
+        cube.textContent = '💧 Air';
+        container.appendChild(cube);
+      }
+      for (let i = 0; i < juiceCups; i++) {
+        const cube = document.createElement('div');
+        cube.className = 'w-full py-1.5 rounded-xl bg-detectiveOrange text-white font-display font-bold text-xs text-center border-2 border-detectiveInk shadow-sm';
+        cube.textContent = '🍊 Sari Jeruk';
+        container.appendChild(cube);
+      }
+
+      const total = waterCups + juiceCups;
+      document.getElementById('water-cups').textContent = waterCups;
+      document.getElementById('juice-cups').textContent = juiceCups;
+      document.getElementById('pitcher-total').textContent = total;
+      document.getElementById('rina-p2p').textContent = `Air : Sari Jeruk = ${waterCups} : ${juiceCups}`;
+      document.getElementById('rina-p2w').textContent = `Sari Jeruk : Total Minuman = ${juiceCups} : ${total}`;
+      document.getElementById('rina-p2w-note').textContent =
+        `(Karena ${waterCups} bagian air + ${juiceCups} bagian sari jeruk = ${total} bagian total)`;
+    }
+
+    function updatePitcher(type, delta) {
+      if (type === 'water') {
+        waterCups = Math.max(1, Math.min(6, waterCups + delta));
+      } else {
+        juiceCups = Math.max(1, Math.min(6, juiceCups + delta));
+      }
+      addDetectiveXP('interact-pitcher', 10);
+      renderPitcher();
+    }
+
+    function resetPitcher() {
+      waterCups = 2;
+      juiceCups = 1;
+      renderPitcher();
+    }
+
+    // ==========================================
+    // SLIDE 9: SOROT POHON SD MENTARI
+    // ==========================================
+    function highlightTrees(mode) {
+      const reds = document.querySelectorAll('.tree-red');
+      const pines = document.querySelectorAll('.tree-pine');
+
+      ['all', 'p2p', 'p2w'].forEach(k => {
+        const b = document.getElementById('tree-btn-' + k);
+        b.classList.remove('bg-detectiveInk', 'text-white');
+        b.classList.add('bg-white', 'text-detectiveInk');
+      });
+      const active = document.getElementById('tree-btn-' + mode);
+      active.classList.remove('bg-white', 'text-detectiveInk');
+      active.classList.add('bg-detectiveInk', 'text-white');
+
+      reds.forEach(el => {
+        el.style.transform = mode !== 'all' ? 'translateY(-8px) scale(1.06)' : 'none';
+      });
+      pines.forEach(el => {
+        el.style.transform = mode === 'p2p' ? 'translateY(-8px) scale(1.06)' : 'none';
+        el.style.opacity = mode === 'p2w' ? '0.65' : '1';
+      });
+    }
+
+    // ==========================================
+    // SLIDE 10: PENYEDERHANAAN RASIO (FPB)
+    // ==========================================
+    function gcd(a, b) {
+      return b === 0 ? a : gcd(b, a % b);
+    }
+
+    function setSimpPreset(a, b) {
+      document.getElementById('simp-a').value = a;
+      document.getElementById('simp-b').value = b;
+      calculateSimplification();
+    }
+
+    function calculateSimplification() {
+      let a = parseInt(document.getElementById('simp-a').value, 10) || 1;
+      let b = parseInt(document.getElementById('simp-b').value, 10) || 1;
+      a = Math.max(1, Math.min(30, a));
+      b = Math.max(1, Math.min(30, b));
+
+      const divisor = gcd(a, b);
+      const simpA = a / divisor;
+      const simpB = b / divisor;
+
+      document.getElementById('ribbon-top-label').textContent = `${a} : ${b}`;
+      document.getElementById('fpb-value').textContent = divisor;
+      document.getElementById('ribbon-bottom-label').textContent = `${simpA} : ${simpB}`;
+
+      document.getElementById('simp-summary-title').textContent =
+        divisor > 1
+          ? `Kesamaan Rasio. Rasio ${a} : ${b} itu BENAR, tapi rasio ${simpA} : ${simpB} itu LEBIH SEDERHANA dan SETARA.`
+          : `Rasio ${a} : ${b} sudah dalam bentuk paling sederhana (FPB = 1)!`;
+
+      const topRibbon = document.getElementById('ribbon-top');
+      const bottomRibbon = document.getElementById('ribbon-bottom');
+      topRibbon.innerHTML = '';
+      bottomRibbon.innerHTML = '';
+
+      for (let i = 0; i < a; i++) {
+        const block = document.createElement('span');
+        block.className = 'w-6 h-8 sm:w-7 sm:h-9 rounded bg-detectiveOrange border-2 border-detectiveInk inline-block';
+        topRibbon.appendChild(block);
+      }
+      for (let i = 0; i < b; i++) {
+        const block = document.createElement('span');
+        block.className = 'w-6 h-8 sm:w-7 sm:h-9 rounded bg-detectiveBlue border-2 border-detectiveInk inline-block';
+        topRibbon.appendChild(block);
+      }
+
+      for (let i = 0; i < simpA; i++) {
+        const block = document.createElement('span');
+        block.className = 'w-8 h-9 sm:w-10 sm:h-10 rounded bg-detectiveOrange border-2 border-detectiveInk inline-block';
+        bottomRibbon.appendChild(block);
+      }
+      for (let i = 0; i < simpB; i++) {
+        const block = document.createElement('span');
+        block.className = 'w-8 h-9 sm:w-10 sm:h-10 rounded bg-detectiveBlue border-2 border-detectiveInk inline-block';
+        bottomRibbon.appendChild(block);
+      }
+    }
+
+    // ==========================================
+    // SLIDE 8: MISI UTAMA & KOTAK TERBALIK
+    // ==========================================
+    function checkMainMission(answer, btnEl) {
+      const fb = document.getElementById('main-mission-feedback');
+      fb.classList.remove('hidden', 'bg-emerald-100', 'border-emerald-600', 'text-emerald-900', 'bg-red-100', 'border-red-600', 'text-red-900');
+
+      if (answer === '1:5') {
+        fb.classList.add('bg-emerald-100', 'border-emerald-600', 'text-emerald-900');
+        fb.innerHTML = '🎉 Tepat Sekali Detektif! Karena 1 bagian semen + 4 bagian pasir = 5 bagian total adonan, maka rasio Semen terhadap Total adalah <strong>1 : 5</strong>.';
+        addDetectiveXP('main-mission', 15);
+      } else {
+        fb.classList.add('bg-red-100', 'border-red-600', 'text-red-900');
+        fb.innerHTML = '🔎 Hampir tepat! Ingat yang ditanya adalah Semen terhadap <strong>TOTAL adonan</strong> (1 + 4 = 5 bagian). Coba pilih lagi!';
+      }
+    }
+
+    function toggleUpsideDownAnswer() {
+      const card = document.getElementById('upside-down-card');
+      card.classList.toggle('is-upside-down');
+    }
+
+    // ==========================================
+    // KUIS 5 SOAL DARI SELURUH MATERI SLIDE
+    // ==========================================
+    const quizData = [
+      {
+        q: '1. Di atas meja terdapat 3 buah jeruk dan 2 buah bluberi. Bagaimana penulisan rasio jeruk terhadap bluberi yang tepat?',
+        options: ['2 : 3', '3 : 2', '3 : 5', '5 : 2'],
+        correct: 1,
+        explanation: 'Urutan sangat penting! Jeruk disebutkan lebih dulu (3), lalu bluberi (2), sehingga rasionya adalah 3 : 2.'
+      },
+      {
+        q: '2. Di Kelas 6 SD Limpung ada 12 siswa laki-laki dan 18 siswa perempuan (Total 30 siswa). Berapa rasio Bagian vs Bagian antara laki-laki terhadap perempuan?',
+        options: ['12 : 30', '18 : 30', '12 : 18', '30 : 12'],
+        correct: 2,
+        explanation: 'Pada perbandingan Bagian vs Bagian, angka total (30) tidak dipakai. Kita membandingkan langsung 12 laki-laki : 18 perempuan.'
+      },
+      {
+        q: '3. Rina membuat minuman dengan 2 gelas air dan 1 gelas sari jeruk. Berapa rasio Sari Jeruk terhadap TOTAL minuman di teko?',
+        options: ['1 : 2', '2 : 1', '1 : 3', '2 : 3'],
+        correct: 2,
+        explanation: 'Total minuman di teko adalah 2 gelas air + 1 gelas sari jeruk = 3 gelas. Jadi rasio sari jeruk terhadap total adalah 1 : 3.'
+      },
+      {
+        q: '4. SD Mentari menanam 4 pohon Pucuk Merah dan 6 pohon Cemara di pot panjang. Manakah pernyataan Bagian vs Keseluruhan yang benar?',
+        options: [
+          'Rasio Pucuk Merah terhadap Cemara = 4 : 6',
+          'Rasio Pucuk Merah terhadap Total Pohon = 4 : 10',
+          'Rasio Cemara terhadap Pucuk Merah = 6 : 4',
+          'Rasio Total Pohon adalah 4 : 6'
+        ],
+        correct: 1,
+        explanation: 'Total seluruh pohon adalah 4 + 6 = 10 pohon. Maka rasio Pucuk Merah (4) terhadap Total Pohon (10) adalah 4 : 10.'
+      },
+      {
+        q: '5. Menurut Aturan Emas Rasio, bagaimana bentuk paling sederhana dari rasio 4 : 6 jika dibagi dengan FPB-nya (2)?',
+        options: ['2 : 3', '1 : 2', '2 : 4', '4 : 3'],
+        correct: 0,
+        explanation: 'Membagi kedua sisi dengan FPB-nya yaitu 2 menghasilkan 4 ÷ 2 = 2 dan 6 ÷ 2 = 3, sehingga bentuk paling sederhananya adalah 2 : 3.'
+      }
+    ];
+
+    const answeredQuiz = {};
+
+    function renderQuiz() {
+      const container = document.getElementById('quiz-container');
+      container.innerHTML = '';
+
+      quizData.forEach((item, idx) => {
+        const card = document.createElement('div');
+        card.className = 'bg-detectiveCream rounded-2xl border-3 border-detectiveInk p-5 space-y-3';
+
+        const qTitle = document.createElement('p');
+        qTitle.className = 'font-extrabold text-base sm:text-lg text-detectiveInk';
+        qTitle.textContent = item.q;
+        card.appendChild(qTitle);
+
+        const optsGrid = document.createElement('div');
+        optsGrid.className = 'grid grid-cols-1 sm:grid-cols-2 gap-2.5';
+
+        item.options.forEach((optText, optIdx) => {
+          const btn = document.createElement('button');
+          btn.className = 'quiz-opt-' + idx + ' text-left px-4 py-2.5 rounded-xl border-2 border-detectiveInk bg-white font-bold text-sm sm:text-base hover:bg-blue-50 transition';
+          btn.textContent = `${String.fromCharCode(65 + optIdx)}. ${optText}`;
+          btn.onclick = () => handleQuizAnswer(idx, optIdx);
+          optsGrid.appendChild(btn);
+        });
+
+        card.appendChild(optsGrid);
+
+        const fb = document.createElement('div');
+        fb.id = 'quiz-fb-' + idx;
+        fb.className = 'hidden p-3.5 rounded-xl border-2 text-sm font-bold';
+        card.appendChild(fb);
+
+        container.appendChild(card);
+      });
+    }
+
+    function handleQuizAnswer(qIdx, selectedIdx) {
+      if (answeredQuiz[qIdx] !== undefined) return;
+      const item = quizData[qIdx];
+      const isCorrect = selectedIdx === item.correct;
+      answeredQuiz[qIdx] = isCorrect;
+
+      const buttons = document.querySelectorAll('.quiz-opt-' + qIdx);
+      buttons.forEach((btn, i) => {
+        btn.disabled = true;
+        if (i === item.correct) {
+          btn.classList.remove('bg-white');
+          btn.classList.add('bg-emerald-500', 'text-white');
+        } else if (i === selectedIdx && !isCorrect) {
+          btn.classList.remove('bg-white');
+          btn.classList.add('bg-red-500', 'text-white');
+        }
+      });
+
+      const fb = document.getElementById('quiz-fb-' + qIdx);
+      fb.classList.remove('hidden');
+      if (isCorrect) {
+        fb.classList.add('bg-emerald-100', 'border-emerald-600', 'text-emerald-950');
+        fb.innerHTML = `✅ <strong>Benar!</strong> ${item.explanation}`;
+        addDetectiveXP('quiz-' + qIdx, 10);
+      } else {
+        fb.classList.add('bg-orange-100', 'border-detectiveOrange', 'text-detectiveInk');
+        fb.innerHTML = `💡 <strong>Pembahasan Detektif:</strong> ${item.explanation}`;
+        addDetectiveXP('quiz-try-' + qIdx, 5);
+      }
+
+      const totalCorrect = Object.values(answeredQuiz).filter(Boolean).length;
+      document.getElementById('quiz-score').textContent = totalCorrect;
+    }
+
+    // ==========================================
+    // SLIDE 12: SERTIFIKAT & TANTANGAN HARI INI
+    // ==========================================
+    function updateBadgeName(val) {
+      const preview = document.getElementById('badge-name-preview');
+      preview.textContent = val.trim() ? `🕵️‍♂️ ${val.trim()}` : '🕵️‍♂️ Detektif Kelas 6 Hebat';
+    }
+
+    function generateClassChallenge() {
+      const nameA = document.getElementById('chal-name-a').value.trim() || 'Meja';
+      const nameB = document.getElementById('chal-name-b').value.trim() || 'Kursi';
+      const numA = Math.max(1, parseInt(document.getElementById('chal-num-a').value, 10) || 15);
+      const numB = Math.max(1, parseInt(document.getElementById('chal-num-b').value, 10) || 30);
+      const total = numA + numB;
+      const d = gcd(numA, numB);
+
+      const resBox = document.getElementById('challenge-result');
+      resBox.classList.remove('hidden');
+      resBox.innerHTML = `
+        <div class="font-display font-bold text-lg text-detectiveBlue">Laporan Investigasi Kelasmu:</div>
+        <p class="text-sm sm:text-base font-bold text-detectiveInk">
+          1. <strong>Bagian vs Bagian</strong> (${nameA} : ${nameB}) = <span class="text-detectiveOrange">${numA} : ${numB}</span> ${d > 1 ? `(Disederhanakan: <strong>${numA/d} : ${numB/d}</strong>)` : ''}
+        </p>
+        <p class="text-sm sm:text-base font-bold text-detectiveInk">
+          2. <strong>Bagian vs Keseluruhan</strong> (${nameA} : Total) = <span class="text-detectiveBlue">${numA} : ${total}</span>
+        </p>
+      `;
+      addDetectiveXP('class-challenge', 10);
+    }
+
+    // ==========================================
+    // INISIALISASI SAAT HALAMAN DIMUAT
+    // ==========================================
+    window.addEventListener('DOMContentLoaded', () => {
+      renderFruitBasket();
+      renderPitcher();
+      calculateSimplification();
+      renderQuiz();
+      addDetectiveXP('visit-tab1', 5);
+    });
+  </script>
+</body>
+</html>
